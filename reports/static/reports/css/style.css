@@ -1860,7 +1860,7 @@ div[data-role="editor-toolbar"] {
 
 .info-box .title {
 
-  font-size: 12px;
+  font-size: 16px;
 
   text-transform: uppercase;
 
@@ -9902,4 +9902,8 @@ span.customSelect.changed {
 
 #sendmessage.show, #errormessage.show, .show {
 	display:block;
+}
+
+.unit{
+    font-size: 14px;
 }

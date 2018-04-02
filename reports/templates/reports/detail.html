@@ -3,56 +3,109 @@
 {% block content %}
 <!--overview start-->
 
-{% for report in reports %}
-  {{ report.net_sales }}
-{% endfor %}
-
 <div class="row">
     <div class="col-lg-12">
-        <h3 class="page-header"><i class="fa fa-laptop"></i> Dashboard</h3>
         <ol class="breadcrumb">
             <li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
-            <li><i class="fa fa-laptop"></i>Dashboard</li>
+            <li><i class="fa fa-laptop"></i>{{ company.english_company_name }}</li>
         </ol>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+    <!-- profile-widget -->
+    <div class="col-lg-12">
+        <div class="profile-widget profile-widget-info">
+            <div class="panel-body">
+                <div class="col-lg-4 col-sm-4">
+                    <h4>{{ company.english_company_name }}</h4>
+                    <h4>{{ company.company_name }}</h4>
+                </div>
+                <div class="col-lg-2 col-sm-2 follow-info">
+                    <p>Code: {{ company.security_code }}</p>
+                    <p>Sector: </p>
+                    <p>Stock market: </p>
+                </div>
+                <div class="col-lg-2 col-sm-6 follow-info weather-category">
+                    <ul>
+                        <li class="active">
+                            150.00<br> Stock Price
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-sm-6 follow-info weather-category">
+                    <ul>
+                        <li class="active">
+                            +10.54<br> From Yesterday
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-sm-6 follow-info weather-category">
+                    <ul>
+                        <li class="active">
+                            100,000,000<br>Total assets (Temp)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
         <div class="info-box blue-bg">
-            <i class="fa fa-cloud-download"></i>
-            <div class="count">{{ reports.0.per }}</div>
-            <div class="title">PER ( {{ reports.0.year }})</div>
+            <div class="count">{{ latest_report.net_sales }} <span class="unit">million JPY</span></div>
+            <div class="title">Net Sales</div>
+            <div class="title">{{ latest_report.year }}</div>
+        </div>
+        <!--/.info-box-->
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+        <div class="info-box blue-bg">
+            <div class="count">{{ latest_report.net_assets }} <span class="unit">million JPY</span></div>
+            <div class="title">Net Assets</div>
+            <div class="title">{{ latest_report.year }}</div>
+        </div>
+        <!--/.info-box-->
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+        <div class="info-box blue-bg">
+            <div class="count">{{ latest_report.per }}</div>
+            <div class="title">PER</div>
+            <div class="title">{{ latest_report.year }}</div>
         </div>
         <!--/.info-box-->
     </div>
     <!--/.col-->
 
-    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
         <div class="info-box brown-bg">
-            <i class="fa fa-shopping-cart"></i>
-            <div class="count">{{ reports.0.roe }}</div>
-            <div class="title">ROE {{ reports.0.year }}</div>
+            <div class="count">{{ latest_report.roe }}</div>
+            <div class="title">ROE</div>
+            <div class="title">{{ latest_report.year }}</div>
         </div>
         <!--/.info-box-->
     </div>
     <!--/.col-->
 
-    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
         <div class="info-box dark-bg">
-            <i class="fa fa-thumbs-o-up"></i>
-            <div class="count">{{ reports.0.eps }}</div>
-            <div class="title">eps {{ reports.0.year }}</div>
+            <div class="count">{{ latest_report.eps }}</div>
+            <div class="title">eps</div>
+            <div class="title">{{ latest_report.year }}</div>
         </div>
         <!--/.info-box-->
     </div>
     <!--/.col-->
 
-    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
         <div class="info-box green-bg">
-            <i class="fa fa-cubes"></i>
-            <div class="count">{{ reports.0.pay_out_ratio }}</div>
-            <div class="title">Eqyuty to assets ratio {{ reports.0.year }}</div>
+            <div class="count">{{ latest_report.pay_out_ratio }}</div>
+            <div class="title">Eqyuty to assets ratio</div>
+            <div class="title">{{ latest_report.year }}</div>
         </div>
         <!--/.info-box-->
     </div>
@@ -112,7 +165,7 @@
                     <div class="col-lg-4">
                         <section class="panel">
                             <header class="panel-heading">
-                                Cash Flow From In
+                                Cash Flow From Investing
                             </header>
                             <div class="panel-body text-center">
                                 <canvas id="cash_flow_from_investing" height="300" width="500" style="width: 500px; height: 300px;"></canvas>
@@ -124,7 +177,7 @@
                     <div class="col-lg-4">
                         <section class="panel">
                             <header class="panel-heading">
-                                Bar
+                                Cash Flow From Financing
                             </header>
                             <div class="panel-body text-center">
                                 <canvas id="cash_flow_from_financing" height="300" width="500" style="width: 500px; height: 300px;"></canvas>
