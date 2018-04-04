@@ -29,7 +29,7 @@
                 <div class="col-lg-2 col-sm-6 follow-info weather-category">
                     <ul>
                         <li class="active">
-                            150.00<br> Stock Price
+                            {{ latest_report.net_sales }} million JPY<br> Latest Net Sales {{ latest_report.year }} {{ latest_report.type_of_current_period }}
                         </li>
 
                     </ul>
@@ -37,7 +37,7 @@
                 <div class="col-lg-2 col-sm-6 follow-info weather-category">
                     <ul>
                         <li class="active">
-                            +10.54<br> From Yesterday
+                            {{ latest_report.net_assets }} million JPY<br> Latest Net Assets {{ latest_report.year }} {{ latest_report.type_of_current_period }}
                         </li>
 
                     </ul>
@@ -45,7 +45,7 @@
                 <div class="col-lg-2 col-sm-6 follow-info weather-category">
                     <ul>
                         <li class="active">
-                            100,000,000<br>Total assets (Temp)
+                            {{ latest_report.eps }}<br> Latest EPS {{ latest_report.year }} {{ latest_report.type_of_current_period }}
                         </li>
                     </ul>
                 </div>
@@ -57,25 +57,25 @@
 <div class="row">
     <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
         <div class="info-box blue-bg">
-            <div class="count">{{ latest_report.net_sales }} <span class="unit">million JPY</span></div>
+            <div class="count">{{ latest_fiscal_report.net_sales }} <span class="unit">million JPY</span></div>
             <div class="title">Net Sales</div>
-            <div class="title">{{ latest_report.year }}</div>
+            <div class="title">{{ latest_fiscal_report.year }}</div>
         </div>
         <!--/.info-box-->
     </div>
     <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
         <div class="info-box blue-bg">
-            <div class="count">{{ latest_report.net_assets }} <span class="unit">million JPY</span></div>
+            <div class="count">{{ latest_fiscal_report.net_assets }} <span class="unit">million JPY</span></div>
             <div class="title">Net Assets</div>
-            <div class="title">{{ latest_report.year }}</div>
+            <div class="title">{{ latest_fiscal_report.year }}</div>
         </div>
         <!--/.info-box-->
     </div>
     <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
         <div class="info-box blue-bg">
-            <div class="count">{{ latest_report.per }}</div>
+            <div class="count">{{ latest_fiscal_report.per }}</div>
             <div class="title">PER</div>
-            <div class="title">{{ latest_report.year }}</div>
+            <div class="title">{{ latest_fiscal_report.year }}</div>
         </div>
         <!--/.info-box-->
     </div>
@@ -83,9 +83,9 @@
 
     <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
         <div class="info-box brown-bg">
-            <div class="count">{{ latest_report.roe }}</div>
+            <div class="count">{{ latest_fiscal_report.roe }}</div>
             <div class="title">ROE</div>
-            <div class="title">{{ latest_report.year }}</div>
+            <div class="title">{{ latest_fiscal_report.year }}</div>
         </div>
         <!--/.info-box-->
     </div>
@@ -93,9 +93,9 @@
 
     <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
         <div class="info-box dark-bg">
-            <div class="count">{{ latest_report.eps }}</div>
+            <div class="count">{{ latest_fiscal_report.eps }}</div>
             <div class="title">eps</div>
-            <div class="title">{{ latest_report.year }}</div>
+            <div class="title">{{ latest_fiscal_report.year }}</div>
         </div>
         <!--/.info-box-->
     </div>
@@ -103,9 +103,9 @@
 
     <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
         <div class="info-box green-bg">
-            <div class="count">{{ latest_report.pay_out_ratio }}</div>
+            <div class="count">{{ latest_fiscal_report.pay_out_ratio }}</div>
             <div class="title">Eqyuty to assets ratio</div>
-            <div class="title">{{ latest_report.year }}</div>
+            <div class="title">{{ latest_fiscal_report.year }}</div>
         </div>
         <!--/.info-box-->
     </div>
@@ -117,7 +117,7 @@
 <div class="col-lg-12">
     <section class="panel">
         <header class="panel-heading">
-            <h3>General Chart
+            <h3>Annual Chart
             </h3></header>
         <div class="panel-body">
             <div class="tab-pane" id="chartjs">
@@ -185,6 +185,45 @@
                         </section>
                     </div>
                 </div>
+
+                <div class="row">
+                    <!-- Net Sales -->
+                    <div class="col-lg-4">
+                        <section class="panel">
+                            <header class="panel-heading">
+                                PER
+                            </header>
+                            <div class="panel-body text-center">
+                                <canvas id="per" height="300" width="500" style="width: 500px; height: 300px;"></canvas>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Net Assets -->
+                    <div class="col-lg-4">
+                        <section class="panel">
+                            <header class="panel-heading">
+                                EPS
+                            </header>
+                            <div class="panel-body text-center">
+                                <canvas id="eps" height="300" width="500" style="width: 500px; height: 300px;"></canvas>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Net Assets -->
+                    <div class="col-lg-4">
+                        <section class="panel">
+                            <header class="panel-heading">
+                                ROE
+                            </header>
+                            <div class="panel-body text-center">
+                                <canvas id="roe" height="300" width="500" style="width: 500px; height: 300px;"></canvas>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -198,12 +237,12 @@ $(document).ready(function() {
 
 
     var barNetSalesData = {
-        labels : [{% for report in reports %}"{{ report.year }}", {% endfor %}],
+        labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
         datasets : [
             {
                 fillColor : "rgba(220,220,220,0.5)",
                 strokeColor : "rgba(220,220,220,1)",
-                data : [{% for report in reports %}{{ report.net_sales }}, {% endfor %}]
+                data : [{% for report in fy_reports %}{{ report.net_sales }}, {% endfor %}]
             },
         ]
 
@@ -211,68 +250,103 @@ $(document).ready(function() {
 
 
     var barNetSalesData = {
-        labels : [{% for report in reports %}"{{ report.year }}", {% endfor %}],
+        labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
         datasets : [
             {
                 fillColor : "rgba(220,220,220,0.5)",
                 strokeColor : "rgba(220,220,220,1)",
-                data : [{% for report in reports %}{{ report.net_sales }}, {% endfor %}]
+                data : [{% for report in fy_reports %}{{ report.net_sales }}, {% endfor %}]
             },
         ]
 
     };
 
     var barRevenuesData = {
-        labels : [{% for report in reports %}"{{ report.year }}", {% endfor %}],
+        labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
         datasets : [
             {
                 fillColor : "rgba(220,220,220,0.5)",
                 strokeColor : "rgba(220,220,220,1)",
-                data : [{% for report in reports %}{{ report.operating_revenue }}, {% endfor %}]
+                data : [{% for report in fy_reports %}{{ report.operating_revenue }}, {% endfor %}]
             },
             {
                 fillColor : "rgba(220,220,220,0.5)",
                 strokeColor : "rgba(220,220,220,1)",
-                data : [{% for report in reports %}{{ report.ordinary_revenue }}, {% endfor %}]
+                data : [{% for report in fy_reports %}{{ report.ordinary_revenue }}, {% endfor %}]
             },
             {
                 fillColor : "rgba(220,220,220,0.5)",
                 strokeColor : "rgba(220,220,220,1)",
-                data : [{% for report in reports %}{{ report.profit_before_tax }}, {% endfor %}]
+                data : [{% for report in fy_reports %}{{ report.profit_before_tax }}, {% endfor %}]
             },
         ]
 
     };
     var barCashFlowFromOperatingData = {
-        labels : [{% for report in reports %}"{{ report.year }}", {% endfor %}],
+        labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
         datasets : [
             {
                 fillColor : "rgba(220,220,220,0.5)",
                 strokeColor : "rgba(220,220,220,1)",
-                data : [{% for report in reports %}{{ report.cash_flow_from_operating }}, {% endfor %}]
+                data : [{% for report in fy_reports %}{{ report.cash_flow_from_operating }}, {% endfor %}]
             },
         ]
 
     };
 
     var barCashFlowFromInvestingData = {
-        labels : [{% for report in reports %}"{{ report.year }}", {% endfor %}],
+        labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
         datasets : [
             {
                 fillColor : "rgba(220,220,220,0.5)",
                 strokeColor : "rgba(220,220,220,1)",
-                data : [{% for report in reports %}{{ report.cash_flow_from_investing }}, {% endfor %}]
+                data : [{% for report in fy_reports %}{{ report.cash_flow_from_investing }}, {% endfor %}]
             },
         ]
 
     };
     var barCashFlowFromFinancingData = {
-        labels : [{% for report in reports %}"{{ report.year }}", {% endfor %}],
+        labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
         datasets : [
             {
                 fillColor : "rgba(220,220,220,0.5)",
                 strokeColor : "rgba(220,220,220,1)",
-                data : [{% for report in reports %}{{ report.cash_flow_from_financing }}, {% endfor %}]
+                data : [{% for report in fy_reports %}{{ report.cash_flow_from_financing }}, {% endfor %}]
+            },
+        ]
+
+    };
+    var barPerData = {
+        labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
+        datasets : [
+            {
+                fillColor : "rgba(220,220,220,0.5)",
+                strokeColor : "rgba(220,220,220,1)",
+                data : [{% for report in fy_reports %}{{ report.per }}, {% endfor %}]
+            },
+        ]
+
+    };
+
+    var barEpsData = {
+        labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
+        datasets : [
+            {
+                fillColor : "rgba(220,220,220,0.5)",
+                strokeColor : "rgba(220,220,220,1)",
+                data : [{% for report in fy_reports %}{{ report.eps }}, {% endfor %}]
+            },
+        ]
+
+    };
+
+    var barRoeData = {
+        labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
+        datasets : [
+            {
+                fillColor : "rgba(220,220,220,0.5)",
+                strokeColor : "rgba(220,220,220,1)",
+                data : [{% for report in fy_reports %}{{ report.roe }}, {% endfor %}]
             },
         ]
 
@@ -283,7 +357,9 @@ $(document).ready(function() {
     new Chart(document.getElementById("cash_flow_from_operating").getContext("2d")).Bar(barCashFlowFromOperatingData);
     new Chart(document.getElementById("cash_flow_from_investing").getContext("2d")).Bar(barCashFlowFromInvestingData);
     new Chart(document.getElementById("cash_flow_from_financing").getContext("2d")).Bar(barCashFlowFromFinancingData);
-
+    new Chart(document.getElementById("per").getContext("2d")).Bar(barPerData);
+    new Chart(document.getElementById("eps").getContext("2d")).Bar(barEpsData);
+    new Chart(document.getElementById("roe").getContext("2d")).Bar(barRoeData);
 
 });
 </script>
