@@ -22,7 +22,7 @@
                     <h4>{{ company.company_name }}</h4>
                 </div>
                 <div class="col-lg-2 col-sm-2 follow-info">
-                    <p>Code: {{ company.security_code }}</p>
+                    <p>Code: <a href="https://stocks.finance.yahoo.co.jp/stocks/detail/?code={{ company.security_code }}" target="_blank">{{ company.security_code }}</a></p>
                     <p>Sector: </p>
                     <p>Stock market: </p>
                 </div>
@@ -248,18 +248,6 @@ $(document).ready(function() {
 
     };
 
-
-    var barNetSalesData = {
-        labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
-        datasets : [
-            {
-                fillColor : "rgba(220,220,220,0.5)",
-                strokeColor : "rgba(220,220,220,1)",
-                data : [{% for report in fy_reports %}{{ report.net_sales }}, {% endfor %}]
-            },
-        ]
-
-    };
 
     var barRevenuesData = {
         labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
