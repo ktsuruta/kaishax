@@ -8,12 +8,15 @@ from .models import Report, Company
 # Create your views here.
 
 def index(request):
-    sort = ''
+    sort_key = request.GET.get('sort')
+    if sort_key is None:
+        sort_key = '-net_sales'
     inner_query = Company.objects.exclude(security_code = '')
-    reports = Report.objects.filter(type_of_current_period='FY', edinet_code__in=inner_query).order_by('-year', '-net_sales')[:100]
+    reports = Report.objects.filter(type_of_current_period='FY', edinet_code__in=inner_query).order_by('-year', sort_key)[:100]
 
     for row in inner_query:
-        print(row.security_code)
+        pass
+        #print(row.security_code)
 
     return render(request, 'reports/index.html', {'reports':reports})
 
