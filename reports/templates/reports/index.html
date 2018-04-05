@@ -24,8 +24,7 @@
               <th>PER<a href="/reports/?sort=-per">v</a><a href="/reports/?sort=per">^</a></th>
               <th>ROE<a href="/reports/?sort=-roe">v</a><a href="/reports/?sort=roe">^</a></th>
               <th>EPS<a href="/reports/?sort=-eps">v</a><a href="/reports/?sort=eps">^</a></th>
-              <th>Put Out Ratio<a href="/reports/?sort=-put_out_ratio">v</a><a href="/reports/?sort=put_out_ratio">^</a></th>
-              <th>Equity Ratio<a href="/reports/?sort=-equity_ratio">v</a><a href="/reports/?sort=equity_ratio">^</a></th>
+              <th>Equity to Asset Ratio<a href="/reports/?sort=-equity_to_asset_ratio">v</a><a href="/reports/?sort=equity_to_asset_ratio">^</a></th>
           </tr>
           </thead>
           <tbody>
@@ -38,7 +37,8 @@
                 <td>{{ report.per }}</td>
                 <td>{{ report.roe }}</td>
                 <td>{{ report.eps }}</td>
-                <td>{{ report.roe }}</td>
+                <td>{{ report.equity_to_asset_ratio }}</td>
+                <!--
                 <td>
                     <div class="progress thin">
                         <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100" style="width: 1%">
@@ -48,6 +48,7 @@
                     </div>
                     <span class="sr-only">73%</span>
                 </td>
+                -->
             </tr>
           {% endfor %}
           </tbody>

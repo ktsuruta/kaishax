@@ -8,15 +8,14 @@ from .models import Report, Company
 # Create your views here.
 
 def index(request):
+    # Default sort key is -net_sales
     sort_key = request.GET.get('sort')
     if sort_key is None:
         sort_key = '-net_sales'
+
+    # Innner_query helps to eliminate recordts which do not contain a security code.
     inner_query = Company.objects.exclude(security_code = '')
     reports = Report.objects.filter(type_of_current_period='FY', edinet_code__in=inner_query).order_by('-year', sort_key)[:100]
-
-    for row in inner_query:
-        pass
-        #print(row.security_code)
 
     return render(request, 'reports/index.html', {'reports':reports})
 
@@ -31,15 +30,20 @@ def detail(request, edinet_code):
     fy_reports =  Report.objects.filter(edinet_code=edinet_code, type_of_current_period='FY')
 
 
+    # Below is to find out the latest report to show in the upper part in the page
     if 0 in (len(fy_reports),len(q1_reports),len(q2_reports),len(q3_reports)):
         latest_report = Report.objects.filter(edinet_code=edinet_code).order_by('year', 'type_of_current_period')[0]
     else:
-        if fy_reports[len(fy_reports)-1].year == q1_reports[len(q1_reports)-1].year:
-            latest_report = latest_fiscal_report
+        print(len(q1_reports))
+        print(len(q2_reports))
+        print(len(q3_reports))
+        print(len(fy_reports))
         if q2_reports[len(q2_reports)-1].year == q1_reports[len(q1_reports)-1].year:
             latest_report = q2_reports[len(q2_reports)-1]
         if q3_reports[len(q3_reports)-1].year == q2_reports[len(q2_reports)-1].year:
             latest_report = q3_reports[len(q3_reports)-1]
+        if fy_reports[len(fy_reports)-1].year == q3_reports[len(q3_reports)-1].year:
+            latest_report = latest_fiscal_report
 
     reports = {
         'q1':q1_reports,

@@ -59,7 +59,7 @@
         <div class="info-box blue-bg">
             <div class="count">{{ latest_fiscal_report.net_sales }} <span class="unit">million JPY</span></div>
             <div class="title">Net Sales</div>
-            <div class="title">{{ latest_fiscal_report.year }}</div>
+            <div class="title">{{ latest_fiscal_report.year }}{{ latest_fiscal_report.type_of_current_period }}</div>
         </div>
         <!--/.info-box-->
     </div>
@@ -67,7 +67,7 @@
         <div class="info-box blue-bg">
             <div class="count">{{ latest_fiscal_report.net_assets }} <span class="unit">million JPY</span></div>
             <div class="title">Net Assets</div>
-            <div class="title">{{ latest_fiscal_report.year }}</div>
+            <div class="title">{{ latest_fiscal_report.year }}{{ latest_fiscal_report.type_of_current_period }}</div>
         </div>
         <!--/.info-box-->
     </div>
@@ -75,7 +75,7 @@
         <div class="info-box blue-bg">
             <div class="count">{{ latest_fiscal_report.per }}</div>
             <div class="title">PER</div>
-            <div class="title">{{ latest_fiscal_report.year }}</div>
+            <div class="title">{{ latest_fiscal_report.year }}{{ latest_fiscal_report.type_of_current_period }}</div>
         </div>
         <!--/.info-box-->
     </div>
@@ -85,7 +85,7 @@
         <div class="info-box brown-bg">
             <div class="count">{{ latest_fiscal_report.roe }}</div>
             <div class="title">ROE</div>
-            <div class="title">{{ latest_fiscal_report.year }}</div>
+            <div class="title">{{ latest_fiscal_report.year }}{{ latest_fiscal_report.type_of_current_period }}</div>
         </div>
         <!--/.info-box-->
     </div>
@@ -95,7 +95,7 @@
         <div class="info-box dark-bg">
             <div class="count">{{ latest_fiscal_report.eps }}</div>
             <div class="title">eps</div>
-            <div class="title">{{ latest_fiscal_report.year }}</div>
+            <div class="title">{{ latest_fiscal_report.year }}{{ latest_fiscal_report.type_of_current_period }}</div>
         </div>
         <!--/.info-box-->
     </div>
@@ -105,7 +105,7 @@
         <div class="info-box green-bg">
             <div class="count">{{ latest_fiscal_report.pay_out_ratio }}</div>
             <div class="title">Eqyuty to assets ratio</div>
-            <div class="title">{{ latest_fiscal_report.year }}</div>
+            <div class="title">{{ latest_fiscal_report.year }}{{ latest_fiscal_report.type_of_current_period }}</div>
         </div>
         <!--/.info-box-->
     </div>
