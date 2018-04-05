@@ -14,10 +14,20 @@ def index(request):
         sort_key = '-net_sales'
 
     # Innner_query helps to eliminate recordts which do not contain a security code.
-    inner_query = Company.objects.exclude(security_code = '')
+    inner_query = Company.objects.exclude(security_code = '').exclude(sector_code = None)
     reports = Report.objects.filter(type_of_current_period='FY', edinet_code__in=inner_query).order_by('-year', sort_key)[:100]
 
-    return render(request, 'reports/index.html', {'reports':reports})
+    # Below lines provide company information.
+    company_en_name_dict = {}
+    company_name_dict = {}
+    company_sector_dict = {}
+
+    for row in inner_query:
+        company_en_name_dict[row.edinet_code] = row.english_company_name
+        company_name_dict[row.edinet_code] = row.company_name
+        company_sector_dict[row.edinet_code] = row.sector_code
+
+    return render(request, 'reports/index.html', {'reports':reports, 'company_en_name_dict':company_en_name_dict,'company_name_dict':company_name_dict, 'company_sector_dict':company_sector_dict})
 
 def detail(request, edinet_code):
     company = Company.objects.get(edinet_code=edinet_code)
