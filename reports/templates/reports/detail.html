@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col-lg-12">
         <ol class="breadcrumb">
-            <li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
+            <li><i class="fa fa-home"></i><a href="/reports/">Home</a></li>
             <li><i class="fa fa-laptop"></i>{{ company.english_company_name }}</li>
         </ol>
     </div>
@@ -270,40 +270,49 @@ $(document).ready(function() {
         ]
 
     };
-    var barCashFlowFromOperatingData = {
+
+    var lineCashFlowFromOperatingData = {
         labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
         datasets : [
             {
-                fillColor : "rgba(220,220,220,0.5)",
+                fillColor : "rgba(0,0,0,0)",
                 strokeColor : "rgba(220,220,220,1)",
+                pointColor : "rgba(220,220,220,1)",
+                pointStrokeColor : "#fff",
                 data : [{% for report in fy_reports %}{{ report.cash_flow_from_operating }}, {% endfor %}]
             },
         ]
 
     };
 
-    var barCashFlowFromInvestingData = {
+    var lineCashFlowFromInvestingData = {
         labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
         datasets : [
             {
-                fillColor : "rgba(220,220,220,0.5)",
+                fillColor : "rgba(0,0,0,0)",
                 strokeColor : "rgba(220,220,220,1)",
+                pointColor : "rgba(220,220,220,1)",
+                pointStrokeColor : "#fff",
                 data : [{% for report in fy_reports %}{{ report.cash_flow_from_investing }}, {% endfor %}]
             },
         ]
 
     };
-    var barCashFlowFromFinancingData = {
+
+    var lineCashFlowFromFinancingData = {
         labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
         datasets : [
             {
-                fillColor : "rgba(220,220,220,0.5)",
+                fillColor : "rgba(0,0,0,0)",
                 strokeColor : "rgba(220,220,220,1)",
+                pointColor : "rgba(220,220,220,1)",
+                pointStrokeColor : "#fff",
                 data : [{% for report in fy_reports %}{{ report.cash_flow_from_financing }}, {% endfor %}]
             },
         ]
 
     };
+
     var barPerData = {
         labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
         datasets : [
@@ -342,9 +351,9 @@ $(document).ready(function() {
 
     new Chart(document.getElementById("net_sales").getContext("2d")).Bar(barNetSalesData);
     new Chart(document.getElementById("revenues").getContext("2d")).Bar(barRevenuesData);
-    new Chart(document.getElementById("cash_flow_from_operating").getContext("2d")).Bar(barCashFlowFromOperatingData);
-    new Chart(document.getElementById("cash_flow_from_investing").getContext("2d")).Bar(barCashFlowFromInvestingData);
-    new Chart(document.getElementById("cash_flow_from_financing").getContext("2d")).Bar(barCashFlowFromFinancingData);
+    new Chart(document.getElementById("cash_flow_from_operating").getContext("2d")).Line(lineCashFlowFromOperatingData);
+    new Chart(document.getElementById("cash_flow_from_investing").getContext("2d")).Line(lineCashFlowFromInvestingData);
+    new Chart(document.getElementById("cash_flow_from_financing").getContext("2d")).Line(lineCashFlowFromFinancingData);
     new Chart(document.getElementById("per").getContext("2d")).Bar(barPerData);
     new Chart(document.getElementById("eps").getContext("2d")).Bar(barEpsData);
     new Chart(document.getElementById("roe").getContext("2d")).Bar(barRoeData);
