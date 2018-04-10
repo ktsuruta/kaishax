@@ -3,4 +3,4 @@ geckodriver.log
 kaishax/__pycache__
 reports/__pycache__/
 reports/__pycache__/*.pyc
-
+virtualenv
