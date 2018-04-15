@@ -81,6 +81,45 @@ def detail(request, edinet_code):
                                                   'latest_fiscal_report': latest_fiscal_report})
 
 
+def search(request):
+    '''
+
+    :param request:
+    :param query:
+    :return:
+    '''
+    query = request.GET.get('query')
+    companies = Company.objects.filter(english_company_name__icontains=query).exclude(sector_code=None)
+
+    #companies = Company.objects.raw("SELECT * FROM reports_company where english_company_name LIKE " + "'%kaneko%'")
+
+    return render(request, 'reports/search.html', {
+        'companies': companies,
+        'query': query,
+    })
+
+
+
+def _get_company_dicts(inner_query):
+    '''
+    :param inner_query: This is a result of taret records of reports_company.
+    :return:
+    '''
+    # Below lines provide company information.
+    company_en_name_dict = {}
+    company_name_dict = {}
+    company_sector_dict = {}
+
+    print(SECTOR_DICT)
+
+    for row in inner_query:
+        company_en_name_dict[row.edinet_code] = row.english_company_name
+        company_name_dict[row.edinet_code] = row.company_name
+        if len(row.sector_code) == 2:
+            row.sector_code = '0' + row.sector_code
+        company_sector_dict[row.edinet_code] = SECTOR_DICT[row.sector_code]
+
+
 SECTOR_DICT = {
     '011': 'Mining and energy development',
     '012': 'Electricity, Gas',
