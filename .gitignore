@@ -4,3 +4,6 @@ kaishax/__pycache__
 reports/__pycache__/
 reports/__pycache__/*.pyc
 virtualenv
+reports/migrations/__pycache__
+reports/templatetags/__pycache__
+.idea/*

@@ -25,6 +25,8 @@ class Report(models.Model):
     pay_out_ratio = models.DecimalField(max_digits=8, decimal_places=3, default=0)
     net_sales = models.IntegerField(default=0)
     net_assets = models.IntegerField(default=0)
+    total_assets = models.IntegerField(default=0)
+    liabilities = models.IntegerField(default=0)
     operating_revenue = models.IntegerField(default=0)
     ordinary_revenue = models.IntegerField(default=0)
     profit_before_tax = models.IntegerField(default=0)
