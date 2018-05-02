@@ -150,7 +150,7 @@
 
                 <div class="row">
                     <!-- Net Sales -->
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <section class="panel">
                             <header class="panel-heading">
                                 Cash Flow From Operating
@@ -162,7 +162,7 @@
                     </div>
 
                     <!-- Net Assets -->
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <section class="panel">
                             <header class="panel-heading">
                                 Cash Flow From Investing
@@ -174,7 +174,7 @@
                     </div>
 
                     <!-- Net Assets -->
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <section class="panel">
                             <header class="panel-heading">
                                 Cash Flow From Financing
@@ -187,8 +187,46 @@
                 </div>
 
                 <div class="row">
+                    <!-- Total Assets -->
+                    <div class="col-lg-6">
+                        <section class="panel">
+                            <header class="panel-heading">
+                               Total Assets
+                            </header>
+                            <div class="panel-body text-center">
+                                <canvas id="total_assets" height="300" width="500" style="width: 500px; height: 300px;"></canvas>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Net Assets -->
+                    <div class="col-lg-6">
+                        <section class="panel">
+                            <header class="panel-heading">
+                               Net Assets
+                            </header>
+                            <div class="panel-body text-center">
+                                <canvas id="net_assets" height="300" width="500" style="width: 500px; height: 300px;"></canvas>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Liabilities -->
+                    <div class="col-lg-6">
+                        <section class="panel">
+                            <header class="panel-heading">
+                                Liabilities
+                            </header>
+                            <div class="panel-body text-center">
+                                <canvas id="liabilities" height="300" width="500" style="width: 500px; height: 300px;"></canvas>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="row">
                     <!-- Net Sales -->
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <section class="panel">
                             <header class="panel-heading">
                                 PER
@@ -200,7 +238,7 @@
                     </div>
 
                     <!-- Net Assets -->
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <section class="panel">
                             <header class="panel-heading">
                                 EPS
@@ -212,7 +250,7 @@
                     </div>
 
                     <!-- Net Assets -->
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <section class="panel">
                             <header class="panel-heading">
                                 ROE
@@ -245,7 +283,6 @@ $(document).ready(function() {
                 data : [{% for report in fy_reports %}{{ report.net_sales }}, {% endfor %}]
             },
         ]
-
     };
 
 
@@ -268,7 +305,6 @@ $(document).ready(function() {
                 data : [{% for report in fy_reports %}{{ report.profit_before_tax }}, {% endfor %}]
             },
         ]
-
     };
 
     var lineCashFlowFromOperatingData = {
@@ -282,7 +318,6 @@ $(document).ready(function() {
                 data : [{% for report in fy_reports %}{{ report.cash_flow_from_operating }}, {% endfor %}]
             },
         ]
-
     };
 
     var lineCashFlowFromInvestingData = {
@@ -296,7 +331,6 @@ $(document).ready(function() {
                 data : [{% for report in fy_reports %}{{ report.cash_flow_from_investing }}, {% endfor %}]
             },
         ]
-
     };
 
     var lineCashFlowFromFinancingData = {
@@ -310,7 +344,6 @@ $(document).ready(function() {
                 data : [{% for report in fy_reports %}{{ report.cash_flow_from_financing }}, {% endfor %}]
             },
         ]
-
     };
 
     var barPerData = {
@@ -322,7 +355,6 @@ $(document).ready(function() {
                 data : [{% for report in fy_reports %}{{ report.per }}, {% endfor %}]
             },
         ]
-
     };
 
     var barEpsData = {
@@ -334,7 +366,6 @@ $(document).ready(function() {
                 data : [{% for report in fy_reports %}{{ report.eps }}, {% endfor %}]
             },
         ]
-
     };
 
     var barRoeData = {
@@ -346,7 +377,39 @@ $(document).ready(function() {
                 data : [{% for report in fy_reports %}{{ report.roe }}, {% endfor %}]
             },
         ]
+    };
 
+    var barTotalAssetsData = {
+        labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
+        datasets : [
+            {
+                fillColor : "rgba(220,220,220,0.5)",
+                strokeColor : "rgba(220,220,220,1)",
+                data : [{% for report in fy_reports %}{{ report.total_assets }}, {% endfor %}]
+            },
+        ]
+    };
+
+    var barNetAssetsData = {
+        labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
+        datasets : [
+            {
+                fillColor : "rgba(220,220,220,0.5)",
+                strokeColor : "rgba(220,220,220,1)",
+                data : [{% for report in fy_reports %}{{ report.net_assets }}, {% endfor %}]
+            },
+        ]
+    };
+
+    var barLiabilitiesData = {
+        labels : [{% for report in fy_reports %}"{{ report.year }}", {% endfor %}],
+        datasets : [
+            {
+                fillColor : "rgba(220,220,220,0.5)",
+                strokeColor : "rgba(220,220,220,1)",
+                data : [{% for report in fy_reports %}{{ report.liabilities }}, {% endfor %}]
+            },
+        ]
     };
 
     new Chart(document.getElementById("net_sales").getContext("2d")).Bar(barNetSalesData);
@@ -354,6 +417,9 @@ $(document).ready(function() {
     new Chart(document.getElementById("cash_flow_from_operating").getContext("2d")).Line(lineCashFlowFromOperatingData);
     new Chart(document.getElementById("cash_flow_from_investing").getContext("2d")).Line(lineCashFlowFromInvestingData);
     new Chart(document.getElementById("cash_flow_from_financing").getContext("2d")).Line(lineCashFlowFromFinancingData);
+    new Chart(document.getElementById("total_assets").getContext("2d")).Bar(barTotalAssetsData);
+    new Chart(document.getElementById("net_assets").getContext("2d")).Bar(barNetAssetsData);
+    new Chart(document.getElementById("liabilities").getContext("2d")).Bar(barLiabilitiesData);
     new Chart(document.getElementById("per").getContext("2d")).Bar(barPerData);
     new Chart(document.getElementById("eps").getContext("2d")).Bar(barEpsData);
     new Chart(document.getElementById("roe").getContext("2d")).Bar(barRoeData);
