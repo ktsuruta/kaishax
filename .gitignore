@@ -6,4 +6,8 @@ reports/__pycache__/*.pyc
 virtualenv
 reports/migrations/__pycache__
 reports/templatetags/__pycache__
+common/__pycache__/
+common/__pycache__/*.pyc
+common/migrations/__pycache__
+common/templatetags/__pycache__
 .idea/*
